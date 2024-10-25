@@ -1,0 +1,16 @@
+{
+  "admins": [
+    {
+      "adminId": "jorge",
+      "adminPass": "xyzw"
+    },
+    {
+      "adminId": "admin2",
+      "adminPass": "pass123"
+    },
+    {
+      "adminId": "brayan",
+      "adminPass": "3322"
+    }
+  ]
+}

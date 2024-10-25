@@ -1,0 +1,132 @@
+/* Estilos generales para la página */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffefd5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor principal */
+.user-home {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Título principal */
+.user-home h1 {
+    font-size: 2.5em;
+    color: #ff6347; /* Color vibrante */
+    margin-bottom: 20px;
+}
+
+/* Formulario para registrar código */
+.form-registrar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.form-registrar label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.form-registrar input {
+    padding: 10px;
+    font-size: 1em;
+    width: 60%;
+    margin-bottom: 15px;
+    border: 2px solid #ff6347;
+    border-radius: 5px;
+}
+
+.form-registrar button {
+    background-color: #ff6347;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.form-registrar button:hover {
+    background-color: #e5533f;
+}
+
+/* Botón de refrescar */
+.btn-refresh {
+    background-color: #4682b4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.btn-refresh:hover {
+    background-color: #357a9f;
+}
+
+/* Tabla de códigos registrados */
+.tabla-codigos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-codigos th, .tabla-codigos td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.tabla-codigos th {
+    background-color: #4682b4;
+    color: white;
+    font-size: 1.1em;
+}
+
+.tabla-codigos td {
+    background-color: #f9f9f9;
+}
+
+.tabla-codigos tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+.tabla-codigos tr:hover {
+    background-color: #ddd;
+}
+
+/* Mensaje cuando no hay códigos */
+.tabla-codigos td[colspan="3"] {
+    font-style: italic;
+    color: #888;
+}
+
+/* Ajustes de responsividad */
+@media (max-width: 768px) {
+    .form-registrar input {
+        width: 80%;
+    }
+
+    .tabla-codigos th, .tabla-codigos td {
+        padding: 10px;
+    }
+}
