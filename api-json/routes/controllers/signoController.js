@@ -57,31 +57,28 @@ const registrarcodigo = async (req, res) => {
 
 
 
-const updateSigno = async (req, res) => {
-    const { signo, genero, textoEditar } = req.body;
+const codigosregistrados = async (req, res) => {
+    const { usuario } = req.body; // Obtener el usuario del body
 
     try {
-        // Buscar si el signo con el género ya existe
-        let signoEncontrado = await Signo.findOne({ signo, genero });
-
-        if (signoEncontrado) {
-            // Actualizar el texto si el signo ya existe
-            signoEncontrado.texto = textoEditar;
-            await signoEncontrado.save();
-            return res.json({ resultado: "Signo actualizado correctamente" });
-        } else {
-            // Crear un nuevo signo si no existe
-            const nuevoSigno = new Signo({ signo, genero, texto: textoEditar });
-            await nuevoSigno.save();
-            return res.json({ resultado: "Signo creado correctamente" });
+        // Buscar el usuario por su nombre o ID en la base de datos
+        const user = await User.findOne({ username: usuario });
+        
+        if (!user) {
+            return res.status(400).json({ resultado: "Usuario no encontrado" });
         }
+
+        // Buscar códigos asociados al usuario
+        const codigos = await Codigo.find({ usuario: user._id }); // Filtrar códigos por el ID del usuario
+
+        return res.json({ codigos }); // Enviar los códigos encontrados
     } catch (error) {
-        console.error("Error actualizando/creando el signo:", error);
-        return res.status(500).json({ resultado: "Error interno en el servidor" });
+        console.error("Error obteniendo códigos registrados:", error);
+        return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
 
-module.exports = { updateSigno };
+
 
 const bcrypt = require('bcrypt'); // Asegúrate de tener bcrypt instalado: npm install bcrypt
 
@@ -195,7 +192,7 @@ module.exports = {
     getAllSignos,
     registrarcodigo,
     getOneSigno,
-    updateSigno,
+    codigosregistrados,
     compareLogin,
     updatepassword,
     crearuser

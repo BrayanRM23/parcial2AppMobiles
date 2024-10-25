@@ -22,7 +22,7 @@ function UserHome({ user }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:4000/v1/signos/registrarcodigo`, {
+            const response = await fetch("http://localhost:4000/v1/signos/registrarcodigo", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
@@ -45,17 +45,25 @@ function UserHome({ user }) {
         }
     };
 
-    // Función para obtener los códigos registrados del backend
-    const fetchCodigosRegistrados = async () => {
-        try {
-            const response = await fetch(`http://localhost:4000/v1/signos/codigosregistrados`);
-            const data = await response.json();
-            setCodigosRegistrados(data.codigos || []);  // Guardar los códigos obtenidos
-        } catch (error) {
-            console.error("Error obteniendo los códigos:", error);
-            alert("Hubo un problema al obtener los códigos registrados.");
-        }
-    };
+    // Función para obtener los códigos registrados del backend usando el método POST
+const fetchCodigosRegistrados = async () => {
+    try {
+        const response = await fetch("http://localhost:4000/v1/signos/codigosregistrados", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ usuario: user }) // Enviar el usuario para filtrar
+        });
+
+        const data = await response.json();
+        setCodigosRegistrados(data.codigos || []);  // Guardar los códigos obtenidos
+    } catch (error) {
+        console.error("Error obteniendo los códigos:", error);
+        alert("Hubo un problema al obtener los códigos registrados.");
+    }
+};
+
 
     // Cargar los códigos registrados al montar el componente
     useEffect(() => {
@@ -79,11 +87,6 @@ function UserHome({ user }) {
                 <button type="submit">Registrar</button>
             </form>
 
-            {/* Botón para refrescar la tabla */}
-            <button onClick={fetchCodigosRegistrados} className="btn-refresh">
-                Refrescar
-            </button>
-
             {/* Tabla de códigos registrados */}
             <h2>Códigos Registrados</h2>
             <table className="tabla-codigos">
@@ -96,11 +99,11 @@ function UserHome({ user }) {
                 </thead>
                 <tbody>
                     {codigosRegistrados.length > 0 ? (
-                        codigosRegistrados.map((codigo) => (
-                            <tr key={codigo._id}>
-                                <td>{new Date(codigo.fechaRegistro).toLocaleDateString()}</td>
-                                <td>{codigo.codigo}</td>
-                                <td>{codigo.premio || "No asignado"}</td>
+                        codigosRegistrados.map((codigoItem) => (
+                            <tr key={codigoItem._id}>
+                                <td>{new Date(codigoItem.fechaRegistro).toLocaleDateString()}</td>
+                                <td>{codigoItem.codigo}</td>
+                                <td>{codigoItem.premio || "No asignado"}</td>
                             </tr>
                         ))
                     ) : (
