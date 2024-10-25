@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 const User = require('../user.model'); // Importa el modelo
 const Codigo = require('../codigo');
+const Premio = require('../Premio'); // Asegúrate de ajustar la ruta según tu estructura de carpetas
 
 const getAllSignos = async (req, res)=>{
     const signo = await fs.readFile(path.join(__dirname,'../../db/signos.json'));
@@ -46,6 +47,16 @@ const registrarcodigo = async (req, res) => {
             fechaRegistro: new Date(),
         });
 
+        // Verificar si el código está en la colección de premios
+        const premio = await Premio.findOne({ codigo });
+        if (premio) {
+            // Si el código tiene premio, asignarlo
+            nuevoCodigo.premio = premio.premio; // Asignar el premio correspondiente
+        } else {
+            // Si no hay premio asociado, marcar como "sigue intentándolo"
+            nuevoCodigo.premio = "Sigue intentándolo";
+        }
+
         await nuevoCodigo.save();
 
         return res.json({ resultado: "Código registrado correctamente" });
@@ -54,6 +65,7 @@ const registrarcodigo = async (req, res) => {
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
+
 
 
 
@@ -106,6 +118,35 @@ const compareLogin = async (req, res) => {
 
     } catch (error) {
         console.error("Error en el login:", error);
+        return res.status(500).json({ resultado: "Error interno del servidor" });
+    }
+};
+
+
+
+const registrarpremio = async (req, res) => {
+    const { codigo, premio } = req.body;
+
+    try {
+        // Verificar si el código ya existe
+        const existingPremio = await Premio.findOne({ codigo });
+
+        if (existingPremio) {
+            return res.status(400).json({ resultado: "El código ya está registrado" });
+        }
+
+        // Crear el nuevo premio
+        const nuevoPremio = new Premio({
+            codigo,
+            premio,
+            fechaRegistro: new Date(),
+        });
+
+        await nuevoPremio.save();
+
+        return res.json({ resultado: "Premio registrado correctamente" });
+    } catch (error) {
+        console.error("Error registrando el premio:", error);
         return res.status(500).json({ resultado: "Error interno del servidor" });
     }
 };
@@ -190,6 +231,7 @@ const crearuser = async (req, res) => {
 
 module.exports = {
     getAllSignos,
+    registrarpremio,
     registrarcodigo,
     getOneSigno,
     codigosregistrados,

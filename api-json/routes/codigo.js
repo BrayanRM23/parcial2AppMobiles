@@ -16,7 +16,6 @@ const CodigoSchema = new mongoose.Schema({
     },
     premio: {
         type: String,
-        default: "No asignado"
     }
 });
 

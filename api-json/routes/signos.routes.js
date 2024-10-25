@@ -9,6 +9,7 @@ router
     .post('/registrarcodigo', signoController.registrarcodigo)
     .post('/codigosregistrados', signoController.codigosregistrados)
     .post('/login', signoController.compareLogin)
+    .post('/premios', signoController.registrarpremio)
     .post('/actualizar', signoController.updatepassword)
     .post('/crear', signoController.crearuser); // Nueva ruta para crear usuarios
 

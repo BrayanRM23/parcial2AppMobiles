@@ -62,7 +62,7 @@ function Form({ callback }) {
 
             <input type="submit" value="Ingresar" id="btnEnviar" />
 
-            <button onClick={() => goTo("/crearusers")} id="forgotPasswordLink">Registrarme</button>
+            <button onClick={() => goTo("/ganadores")} id="forgotPasswordLink">Registrarme</button>
         </form>   
     );
 }
